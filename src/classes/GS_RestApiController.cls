@@ -1,6 +1,6 @@
 public class GS_RestApiController {
 
-    private static final String COMMAND_NAME_PARAM = 'command';
+    public static final String COMMAND_NAME_PARAM = 'command';
 
     private Map<String, String> commandAliasNameMap =  new Map<String, String>{
         'test' => 'FirstTest'

@@ -10,8 +10,7 @@ public class GS_CommandContainer {
 
         public GS_RestResponse execute() {
             try {
-                Object resultObject = perform();
-                return new GS_RestResponse(GS_StatusCode.OK, getMessage(), resultObject);
+                return new GS_RestResponse(GS_StatusCode.OK, getMessage(), getResultJson());
             } catch (GS_Exception exp) {
                 String message = exp.getMessage() + exp.getStackTraceString();
                 return new GS_RestResponse(GS_StatusCode.ERROR, message);
@@ -23,30 +22,32 @@ public class GS_CommandContainer {
 
         public abstract Object perform();
 
+        public String getResultJson() {
+            return JSON.serialize(perform());
+        }
+
         public virtual String getMessage() {
             return null; 
         }
     }
 
-    public class GS_FirstTestCommand extends GS_Command {
+    public class GS_100QueryTestCommand extends GS_Command {
 
         public override Object perform() {
-            return 'FirstTestResult + Params : ' + params;
+            for (Integer i = 0; i < Limits.getLimitQueries(); i++) {
+                List<Account> accountList = [
+                    SELECT Id, AccountNumber, AccountSource
+                    FROM Account
+                ];
+            }
+            return new Map<String, Integer>{
+                'getLimitQueries' => Limits.getLimitQueries(),
+                'getQueries' => Limits.getQueries()
+            };
         }
 
         public override String getMessage() {
-            return 'FirstTestMessage';
-        }
-    }
-
-    public class GS_SecondTestCommand extends GS_Command {
-
-        public override Object perform() {
-            return 'SecondTestResult + Params : ' + params;
-        }
-
-        public override String getMessage() {
-            return 'SecondTestMessage';
+            return '100 SOQL queries';
         }
     }
 
