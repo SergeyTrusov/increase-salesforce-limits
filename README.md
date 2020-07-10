@@ -1,2 +1,2 @@
-# sf-apex-rest-api
-Salesforce Apex Tools for perform Rest Requests
+# Framework to Increase Salesforce Governor Limits
+More info you can find in our blog - https://blog.truesalessoft.com/how-to-increase-salesforce-governor-limits
